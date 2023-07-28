@@ -18,7 +18,8 @@ app.get('/webhooks',(req, res) => {
     let VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
     let mode = req.query['hub.mode'];
-    let
+    let token = req.query['hub.verifyToken'];
+    let challenge = req.query['hub.challenge'];
 
 });
 
