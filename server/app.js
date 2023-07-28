@@ -13,6 +13,17 @@ const pageAccessToken = process.env.PAGE_ACCESS_TOKEN;
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
 
+// Configuration de webhook
+app.get('/webhooks',(req, res) => {
+    let VERIFY_TOKEN = process.env.VERIFY_TOKEN;
+
+    let mode = req.query['hub.mode'];
+    let
+
+});
+
+
+
 
 //Demare du serveur
 app.listen(port, () => {
