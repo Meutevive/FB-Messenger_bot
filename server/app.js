@@ -71,6 +71,7 @@ function handleMessage(sender_id, receivedMessage) {
     }
 
     callSendAPI(sender_id, response);
+    
 }
 
 // Handle postback events
@@ -86,7 +87,7 @@ function callSendAPI(sender_id, response) {
     };
 
     axios.post(`https://graph.facebook.com/v12.0/me/messages?access_token=${pageAccessToken}`, requestBody)
-        .then(res => console.log(`Message sent to user ${sender_id}`))
+        .then(res => console.log(`Message sent to user ${sender_id}. Response: `, res.data))
         .catch(err => console.log('Error sending message:', err));
 }
 
