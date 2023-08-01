@@ -1,14 +1,17 @@
-require('dotenv').config();
+require('dotenv').config(); // read .env file
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const app = express();
-const port = 3000;
-const axios = require('axios');
+const express = require('express'); // import express
+const bodyParser = require('body-parser'); // parse application/x-www-form-urlencoded
+const app = express(); // create express app
+const port = 3000; // start server on port 3000
+const axios = require('axios'); // axios for  http query
+const dialogflow = require('@google-cloud/dialogflow'); //diaglof flow
 const pageAccessToken = process.env.PAGE_ACCESS_TOKEN;
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+const sessionClient = new dialogflow.SessionsClient();
 
 // Webhook setup
 app.get('/webhook', (req, res) => {
@@ -64,14 +67,32 @@ app.post('/webhook', (req, res) => {
 
 // Handle message events
 function handleMessage(sender_id, receivedMessage) {
-    let response;
-
-    if (receivedMessage.text) {
-        response = { "text": `You said: "${receivedMessage.text}". ` };
+    const sessionPath = sessionClient.projectAgentSessionPath(process.env.GOOGLE_PROJECT_ID, sender_id);
+    const request = {
+        session: sessionPath,
+        queryInput:{
+            text:{
+                text: receivedMessage.text,
+                languageCode: 'en-US' // update this to the language you want to use
+            }
+        }
     }
-
-    callSendAPI(sender_id, response);
     
+
+    // Send request to the dialogflow
+    sessionClient.detectIntent(request)
+    .then(response => {
+        const result = response[0].queryResult;
+        let responseText = result.fulfillmentText;  
+
+        // Send Dialogflow response to user
+        callSendAPI(sender_id,{ text: responseText});
+    })
+
+    .catch(err => {
+        console.error('Error processing Dialogflow intent:', err);
+        callSendAPI(sender_id, { text: 'sorry didn\'t catch that' });
+    })
 }
 
 // Handle postback events
