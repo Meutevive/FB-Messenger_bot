@@ -85,14 +85,19 @@ function handleMessage(sender_id, receivedMessage) {
         const result = response[0].queryResult;
         let responseText = result.fulfillmentText;  
 
+        // check if Dialogflow understood the intent
+        if (result.intentDetectionConfidence < 0.5) {
+            responseText = 'I am sorry, I did not understand your question.';
+        }
+
         // Send Dialogflow response to user
         callSendAPI(sender_id,{ text: responseText});
     })
-
     .catch(err => {
         console.error('Error processing Dialogflow intent:', err);
-        callSendAPI(sender_id, { text: 'sorry didn\'t catch that' });
+        callSendAPI(sender_id, { text: 'There was an error processing your request.' });
     })
+
 }
 
 // Handle postback events
