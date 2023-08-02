@@ -4,13 +4,14 @@
 A chatbot integrated with Facebook Messenger, developed using Node.js and Google's Dialogflow.
 
 # Table of Contents
-* [Project Description](#project-description)
-* [Installation Instructions](#installation-instructions)
-* [Usage Information](#usage-information)
-* [Contribution Guidelines](#contribution-guidelines)
-* [Test Instructions](#test-instructions)
+* [Prerequisites](#Prerequisites)
+* [Installation](#Installation)
+* [Environment Setup](#Environment-Setup)
+* [Google cloud](#Download-the-Google-Cloud-Private-Key-JSON-file)
+* [Running Locally](#Running-Locally)
+* [Deploying to Production](#Deploying-to-Production)
+* [Features](#Features)
 * [License](#license)
-* [Questions](#questions)
 
 
 # Prerequisites
