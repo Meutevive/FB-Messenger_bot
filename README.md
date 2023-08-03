@@ -111,7 +111,7 @@ This bot has been programmed to handle fundamental interactions, including basic
 
 # License
 
-This project is open source and available under the MIT License.
+This project is open source and available under the CC BY-ND License.
 
 
 
