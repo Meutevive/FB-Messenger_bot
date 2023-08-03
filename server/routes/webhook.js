@@ -33,7 +33,6 @@ router.get('/webhook', (req, res) => {
 });
 
 
-
 // Handle messaging events
 router.post('/webhook', (req, res) => {
     // Get the request body
