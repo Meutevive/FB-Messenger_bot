@@ -1,17 +1,17 @@
 import React from 'react';
+import Message from './Message';
 
 // This component is responsible for rendering the chat area where messages are displayed
 
 const ChatArea = ({ messages }) => {
     return (
-        <div>
-            {/* Render each message in the 'messages' array as a paragraph element */}
-            {/* Assign a unique 'key' prop to each paragraph element */}
+        <div className="overflow-auto h-64">
             {messages.map((message, index) => (
-                <p key={index}>{message}</p>
+                <Message key={index} text={message.text} sender={message.sender} />
             ))}
         </div>
     );
 };
+
 
 export default ChatArea;
