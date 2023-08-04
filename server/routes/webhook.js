@@ -52,11 +52,11 @@ router.post('/webhook', (req, res) => {
             // Check if the event is a message or postback and
             // pass the event to the appropriate handler function
             if (webhook_event.message) {
-                handleMessage(sender_id, webhook_event.message);
+                handleMessage(sender_id, webhook_event.message, true);
             } else if (webhook_event.postback) {
                 handlePostback(sender_id, webhook_event.postback);
             }
-        });
+        }); 
 
         // Send a success response
         res.status(200).send('EVENT_RECEIVED');
