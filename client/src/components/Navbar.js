@@ -8,9 +8,9 @@ import React from "react";
 function Navbar() {
 
     return (
-        <nav>
-            <h1>Esmeralda</h1>
-        </nav>
+        <section className="flex flex-auto items-center justify-evenly h-full pr-2 pl-5 sticky top-0 border border-black bg-black ">
+                <h1 className="text-2xl text-white font-semibold">Esmeralda</h1>
+        </section>
     );
 };
 

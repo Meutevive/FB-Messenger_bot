@@ -1,15 +1,13 @@
 import React from 'react';
-import './App.css';
-import Navbar from './components/Navbar';
-import ChatWindow from './components/ChatWindow';
+import Home from './views/Home'
+import '../assets/App.css';
 
 function App() {
-    return (
-        <div className="App">
-            <Navbar />
-            <ChatWindow />
-        </div>
-    );
+  return (
+    <div className="App">
+      <Home />
+    </div>
+  );
 }
 
 export default App;

@@ -3,20 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "autoprefixer": "^10.4.14",
-    "postcss-cli": "^10.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "0.9.5"
-  },
-  "devDependencies": {
+    "react-scripts": "0.9.5",
     "tailwindcss": "^3.3.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "build:css": "postcss src/tailwind.css -o src/App.css"
+    "eject": "react-scripts eject"
   }
 }
