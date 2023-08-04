@@ -1,6 +1,6 @@
 import React from "react";
-import Message from "./Message";
 import InputArea from "./InputArea";
+import ChatArea from "./ChatArea";
 
 /**
  * Represents a chat window component.
@@ -14,14 +14,16 @@ function ChatWindow() {
     ];
 
     return (
-        <div>
-            {messages.map((message, index) => (
-                <Message key={index} text={message.text} sender={message.sender} />
-            ))}
-
-            <InputArea />
+        <div className="flex flex-col h-screen justify-between">
+            <div className="overflow-auto">
+                <ChatArea messages={messages} />
+            </div>
+            <div className="mb-4">
+                <InputArea />
+            </div>
         </div>
     );
 }
+
 
 export default ChatWindow;
