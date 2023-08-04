@@ -1,9 +1,9 @@
 // Home.js
-
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { FiSend } from "react-icons/fi";
 import axios from 'axios';
+
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -14,11 +14,14 @@ function Home() {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
     const [botCurrentMessage, setBotCurrentMessage] = useState('');
+    const endOfMessagesRef = useRef(null);
+
 
     const handleSendMessage = async () => {
         console.log('handleSendMessage is called');
 
         setMessages(prevMessages => [...prevMessages, { text: newMessage, sender: 'user' }]);
+        setNewMessage('');
 
         try {
 
@@ -45,12 +48,26 @@ function Home() {
 
             await sleep(1000);
 
-            setNewMessage('');
 
         } catch (error) {
             console.error('Error sending message:', error);
         }
     };
+
+    const scrollToBottom = () => {
+        endOfMessagesRef.current?.scrollIntoView({behavior: 'smooth'});
+    };  
+    
+
+    const scrollToTop = () => {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+    
+
 
     return (
         <div className="flex flex-col h-screen p-8 space-y-8 bg-gray-800 text-white">
@@ -60,13 +77,14 @@ function Home() {
             </header>
             <div className="flex flex-col flex-grow overflow-y-auto space-y-4 px-60">
                 {messages.map((message, index) => (
-                    <div key={index} className={`p-4 rounded-lg ${message.sender === 'bot' ? 'bg-blue-500 text-white self-start' : 'bg-gray-700 text-white self-end'}`}>
+                    <div key={index} className={`p-4 rounded-lg ${message.sender === 'bot' ? 'bg-blue-500 text-white self-start' : 'bg-gray-700 text-white self-end'} whitespace-normal break-words`}>
                         <p>{message.text}</p>
                     </div>
                 ))}
                 {botCurrentMessage && <div className="p-4 rounded-lg bg-blue-500 text-white self-start">
                     <p>{botCurrentMessage}</p>
                 </div>}
+                <div ref={endOfMessagesRef} /> {/* This will be scrolled into view when a new message is added */}
             </div>
 
             <div className="flex justify-center mt-4">
@@ -89,6 +107,8 @@ function Home() {
                     </button>
                 </div>
             </div>
+            <button onClick={scrollToTop}>Retour en haut</button>
+
         </div>
     );
 }
