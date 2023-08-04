@@ -1,6 +1,7 @@
 const dialogflow = require('@google-cloud/dialogflow'); //diaglof flow
 const sessionClient = new dialogflow.SessionsClient();
 const callSendAPI = require('../services/messenger'); // import messenger function
+const { text } = require('body-parser');
 
 // Handle message events
 function handleMessage(sender_id, receivedMessage, isMessenger = false) {

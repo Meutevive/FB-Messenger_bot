@@ -13,6 +13,7 @@ router.post('/message', (req, res) => {
     handleMessage(sender_id, { text })
         .then(response => {
             console.log('fulfillmentText:', response.fulfillmentText);
+            
             // Send the response from DialogFlow back to your custom UI
             res.json({fulfillmentText: response.fulfillmentText});
         })
@@ -23,3 +24,4 @@ router.post('/message', (req, res) => {
 });
 
 module.exports = router;
+
