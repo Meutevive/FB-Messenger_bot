@@ -5,7 +5,7 @@ const webhookRouter = require('./routes/webhook'); // import webhook routes
 const customRouter = require('./routes/customUI'); // import custom ui routes
 const cors = require('cors'); // import cors
 const app = express(); // create express app
-const port = 3000; // start server on port 3000
+const port = process.env.PORT || 3000; // start server on port 3000
 
 
 app.use (cors()); // enable cors
