@@ -59,9 +59,9 @@ function Home() {
     };  
     
 
-    const scrollToTop = () => {
+    /*const scrollToTop = () => {
         window.scrollTo({top: 0, behavior: 'smooth'});
-    }
+    }*/
 
     useEffect(() => {
         scrollToBottom();
@@ -76,12 +76,13 @@ function Home() {
                 <p className="text-gray-300">The Essential AI assistant for users.</p>
             </header>
             <div className="flex flex-col flex-grow overflow-y-auto space-y-4 px-60">
-                {messages.map((message, index) => (
-                    <div key={index} className={`p-4 rounded-lg ${message.sender === 'bot' ? 'bg-blue-500 text-white self-start' : 'bg-gray-700 text-white self-end'} whitespace-normal break-words`}>
-                        <p>{message.text}</p>
-                    </div>
-                ))}
-                {botCurrentMessage && <div className="p-4 rounded-lg bg-blue-500 text-white self-start">
+            {messages.map((message, index) => (
+                <div key={index} className={`p-4 rounded-lg ${message.sender === 'bot' ? 'bg-blue-500 text-white self-start text-left' : 'bg-gray-700 text-white self-end'} whitespace-normal break-words`}>
+                    <p>{message.text}</p>
+                </div>
+            ))}
+
+                {botCurrentMessage && <div className="p-4 rounded-lg bg-blue-500 text-white self-start text-left">
                     <p>{botCurrentMessage}</p>
                 </div>}
                 <div ref={endOfMessagesRef} /> {/* This will be scrolled into view when a new message is added */}
@@ -107,7 +108,10 @@ function Home() {
                     </button>
                 </div>
             </div>
-            <button onClick={scrollToTop}>Retour en haut</button>
+            <div> 
+                <p>Esmeralda, version as of August 1 2023, may produce inaccurate information and may not fully comprehend information about people, places, or facts.</p>
+            </div>
+            {/*<button onClick={scrollToTop}>Retour en haut</button> */}
 
         </div>
     );
