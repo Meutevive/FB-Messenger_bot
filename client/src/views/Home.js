@@ -25,7 +25,7 @@ function Home() {
 
         try {
 
-            const response = await axios.post('https://fbmessenger-christianmbappe033.b4a.run/customUI/message', {
+            const response = await axios.post('https://localhost:3000/customUI/message', {
                 text: newMessage,
                 sender: 'user'
             });
