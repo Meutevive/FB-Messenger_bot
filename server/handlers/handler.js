@@ -1,4 +1,6 @@
-const dialogflow = require('@google-cloud/dialogflow'); //diaglof flow
+//const dialogflow = require('@google-cloud/dialogflow'); //diaglof flow
+const OpenAIApi = require('openai'); //import open ai api
+const openai = new OpenAIApi(process.env.OPENAI_API_KEY);
 const sessionClient = new dialogflow.SessionsClient();
 const callSendAPI = require('../services/messenger'); // import messenger function
 const { text } = require('body-parser');
@@ -21,42 +23,35 @@ function handleMessage(sender_id, receivedMessage, isMessenger = false) {
         }
 
         // Send request to Dialogflow
-        sessionClient.detectIntent(request)
-            .then(response => {
-                const result = response[0].queryResult;
-                let responseText = result.fulfillmentText;
+        openai.complete({
+            model: 'gpt-3.5-turbo',
+            prompt: receivedMessage.text,
+            max_tokens: 50
+        }).then(response => {
+            let responseText = response.choices[0].text.trim();
 
-                // Log the complete result
-                console.log('Result:', result);
+            // Vous pouvez ajouter une logique supplémentaire ici si vous voulez, comme une vérification de la confiance
 
-                // Log the intentDetectionConfidence value
-                console.log('Intent Detection Confidence:', result.intentDetectionConfidence);
+            // Check if the message came from Messenger or custom UI
+            if (isMessenger) {
+                // Send OpenAI response to user on Messenger
+                callSendAPI(sender_id, { text: responseText });
+            }
 
-                // Check if Dialogflow understood the intent
-                if (result.intentDetectionConfidence < 0.5) {
-                    responseText = 'I am sorry, I cannot answer that question yet.';
-                }
+            // Resolve promise with the OpenAI response
+            resolve({ fulfillmentText: responseText });
+        }).catch(err => {
+            console.error('Error processing OpenAI completion:', err);
 
-                // Check if the message came from Messenger or custom UI
-                if (isMessenger) {
-                    // Send Dialogflow response to user on Messenger
-                    callSendAPI(sender_id, { text: responseText });
-                }
+            // Check if the message came from Messenger or custom UI
+            if (isMessenger) {
+                callSendAPI(sender_id, { text: 'There was an error processing your request.' });
+            }
 
-                // Resolve promise with the Dialogflow response
-                resolve({fulfillmentText: responseText});
-            })
-            .catch(err => {
-                console.error('Error processing Dialogflow intent:', err);
+            // Reject promise with the error
+            reject(err);
+        });
 
-                // Check if the message came from Messenger or custom UI
-                if (isMessenger) {
-                    callSendAPI(sender_id, { text: 'There was an error processing your request.' });
-                }
-
-                // Reject promise with the error
-                reject(err);
-            });
     });
 }
 
